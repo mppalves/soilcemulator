@@ -1,12 +1,12 @@
-# madrat based MAgPIE Input Data Library
+# madrat based soil carbon pasture emulator creator
 
-R package **mrmagpie**, version **0.38.3**
+R package **mrscpmule**, version **1.0.0**
 
-[![CRAN status](https://www.r-pkg.org/badges/version/mrmagpie)](https://cran.r-project.org/package=mrmagpie) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4319612.svg)](https://doi.org/10.5281/zenodo.4319612)  [![R build status](https://github.com/pik-piam/mrmagpie/workflows/check/badge.svg)](https://github.com/pik-piam/mrmagpie/actions) [![codecov](https://codecov.io/gh/pik-piam/mrmagpie/branch/master/graph/badge.svg)](https://codecov.io/gh/pik-piam/mrmagpie)
+[![CRAN status](https://www.r-pkg.org/badges/version/mrscpmule)](https://cran.r-project.org/package=mrscpmule)   [![R build status](https://github.com/mppalves/mrscpmule/workflows/check/badge.svg)](https://github.com/mppalves/mrscpmule/actions) [![codecov](https://codecov.io/gh/mppalves/mrscpmule/branch/master/graph/badge.svg)](https://codecov.io/gh/mppalves/mrscpmule)
 
 ## Purpose and Functionality
 
-Provides functions for MAgPIE country and cellular input data generation.
+Provides functions for the creation of a Machine learning emulator based on magpie preprocessing files.
 
 
 ## Installation
@@ -21,7 +21,7 @@ The additional repository can be made available permanently by adding the line a
 After that the most recent version of the package can be installed using `install.packages`:
 
 ```r 
-install.packages("mrmagpie")
+install.packages("mrscpmule")
 ```
 
 Package updates can be installed using `update.packages` (make sure that the additional repository has been added before running that command):
@@ -32,23 +32,23 @@ update.packages()
 
 ## Questions / Problems
 
-In case of questions / problems please contact Kristine Karstens <karstens@pik-potsdam.de>.
+In case of questions / problems please contact Alves Marcos <pedrosa@pik-potsdam.de>.
 
 ## Citation
 
-To cite package **mrmagpie** in publications use:
+To cite package **mrscpmule** in publications use:
 
-Karstens K, Dietrich J, Chen D, Windisch M, Alves M, Beier F, v. Jeetze P, Mishra A, Humpenoeder F (2020).
-_mrmagpie: madrat based MAgPIE Input Data Library_. R package version 0.26.1.
+Marcos A (2021). _mrscpmule: madrat based soil carbon pasture emulator creator_.
+https://github.com/mppalves/mrscpmule,.
 
 A BibTeX entry for LaTeX users is
 
  ```latex
 @Manual{,
-  title = {mrmagpie: madrat based MAgPIE Input Data Library},
-  author = {Kristine Karstens and Jan Philipp Dietrich and David Chen and Michael Windisch and Marcos Alves and Felicitas Beier and Patrick {v. Jeetze} and Abhijeet Mishra and Florian Humpenoeder},
-  year = {2020},
-  note = {R package version 0.26.1},
+  title = {mrscpmule: madrat based soil carbon pasture emulator creator},
+  author = {Alves Marcos},
+  year = {2021},
+  note = {https://github.com/mppalves/mrscpmule,},
 }
 ```
 

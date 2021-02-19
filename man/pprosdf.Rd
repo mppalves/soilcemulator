@@ -6,6 +6,15 @@
 \usage{
 pprosdf(input, targetdir, repositories, flag)
 }
+\arguments{
+\item{input}{input file}
+
+\item{targetdir}{output directory}
+
+\item{repositories}{input repository}
+
+\item{flag}{file flag}
+}
 \value{
 Data frame
 }

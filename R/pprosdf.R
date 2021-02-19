@@ -1,9 +1,13 @@
 #' @title pprosdf
 #' @description Pre processes the machine learning emulator based on Mapie input files
 #' @return Data frame
+#' @param input input file
+#' @param targetdir output directory
+#' @param repositories input repository
+#' @param flag file flag
 #' @author Marcos Alves
 #' @import magclass
-#' @import gms download_unpack
+#' @importFrom gms download_unpack
 #' @importFrom stringi stri_split_fixed
 #' @importFrom tidyr pivot_wider
 #' @importFrom dplyr mutate
@@ -20,6 +24,14 @@ pprosdf <- function(input, targetdir, repositories, flag) {
   # targetdir = "C:/Users/pedrosa/Desktop/test/"
   # repositories = list("C:/Users/pedrosa/Desktop"= NULL)
   # flag = "soilc_lab"
+
+  Cell <- NULL
+  Region <- NULL
+  Year <- NULL
+  Data1 <- NULL
+  Data2 <- NULL
+  Value <- NULL
+  tag_files <- NULL
 
   filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)
 

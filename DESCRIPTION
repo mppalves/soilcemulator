@@ -1,0 +1,24 @@
+Package: mrscpmule
+Title: madrat based soil carbon pasture emulator creator
+Version: 0.0.1
+Date: 2021-02-21
+Authors@R: c(person("Alves", "Marcos", email = "pedrosa@pik-potsdam.de", role = c("aut","cre")))
+Description: Provides functions for the creation of a Machine learning emulator based on magpie preprocessing files
+Depends:
+    R(>= 2.10.0),
+    magclass(>= 3.17),
+    madrat(>= 1.72),
+    lpjclass(>= 1.15),
+Imports:
+    readxl
+License: LGPL-3 | file LICENSE
+URL: https://github.com/pik-piam/mrmagpie, https://doi.org/10.5281/zenodo.4319612
+BugReports: https://github.com/pik-piam/mrmagpie/issues
+LazyData: no
+Encoding: UTF-8
+RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown,
+    covr
+VignetteBuilder: knitr

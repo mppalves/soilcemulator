@@ -44,6 +44,9 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
 
   files <- list.files(targetdir)
   tag_index <- grep(flag, files)
+  if(length(tag_index)<1){
+    stop(paste0("None of the files in ", targetdir, "is flagged as ", flag))
+  }
   unlink(files[-tag_index])
 
   if(length(tag_files)>2){
@@ -70,11 +73,11 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   out$timestep <- timestep
 
   if(cut_100 == T){
-    out <- rawdf[out$Year<=2100,]
+    out <- out[out$Year<=2100,]
   }
 
   dfid <- digest::sha1(out)
-  attr(out, "id") <- dfid
+  attr(out, "dfid") <- dfid
   saveRDS(out, file = paste0("training_data_",dfid,".rds"))
   return(out)
 }

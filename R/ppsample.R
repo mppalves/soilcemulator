@@ -14,14 +14,14 @@
 #' @importFrom dplyr mutate
 #' @importFrom digest sha1
 #'
-rawdf <- out
-ppsample <- function(rawdf, skip_timestep=NULL, p=0.9){
 
-  dfid <- attr(rawdf, "id")
+ppsample <- function(rawdf, skip_timestep=NULL, p=0.9, features){
+
+  features <- features[["select"]]
+  dfid <- attr(rawdf, "dfid")
   skip <- rawdf$timestep!=skip_timestep
-  drop_names <- "cell+|fak+|reg+|year+|cond+|tdiff+|data+|timestep"
-  drops <- grepl(pattern = drop_names, names(rawdf), ignore.case=TRUE)
-  datadf <- rawdf[, !drops]
+
+  datadf <- rawdf[, features]
 
   datadf  <- scale(datadf)
   col_means   <- attr(datadf, "scaled:center")
@@ -50,17 +50,34 @@ ppsample <- function(rawdf, skip_timestep=NULL, p=0.9){
 
   inputs       <- colnames(train_data)
 
+  dir.create(as.character(skip_timestep), showWarnings = T)
+  setwd(as.character(skip_timestep))
+
   saveRDS(col_means, file = paste0("means_", dfid, ".Rds"))
   saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".Rds"))
   saveRDS(inputs, file = paste0("inputs_", dfid, ".Rds"))
 
+  # writting model information
+  x        <- list("dfid"=dfid, "train_data"=head(train_data), "inputs"=inputs, "skip_timestep" = skip_timestep)
+  y        <- capture.output(x)
+  con <- file("timestep_info.txt")
+  writeLines(y, con = con)
+  close(con)
 
-  return(list("train_data"=train_data,
-              "train_labels"=train_labels,
-              "test_data" = test_data,
-              "test_labels"=test_labels,
-              "inputs" = inputs,
-              "col_means" = col_means,
-              "col_stddev" = col_stddevs))
+
+  x <- list("train_data"=train_data,
+          "train_labels"=train_labels,
+          "test_data" = test_data,
+          "test_labels"=test_labels,
+          "inputs" = inputs,
+          "col_means" = col_means,
+          "col_stddev" = col_stddevs)
+
+  attr(x,"timestep") <- skip_timestep
+  attr(x, "dfid") <- dfid
+
+
+
+  return(x)
 
 }

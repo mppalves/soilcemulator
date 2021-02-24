@@ -1,8 +1,8 @@
 # madrat based soil carbon pasture emulator creator
 
-R package **mrscpmule**, version **1.0.0**
+R package **mrscpmule**, version **2.0.0**
 
-[![CRAN status](https://www.r-pkg.org/badges/version/mrscpmule)](https://cran.r-project.org/package=mrscpmule)   [![R build status](https://github.com/mppalves/mrscpmule/workflows/check/badge.svg)](https://github.com/mppalves/mrscpmule/actions) [![codecov](https://codecov.io/gh/mppalves/mrscpmule/branch/master/graph/badge.svg)](https://codecov.io/gh/mppalves/mrscpmule)
+[![CRAN status](https://www.r-pkg.org/badges/version/mrscpmule)](https://cran.r-project.org/package=mrscpmule)    
 
 ## Purpose and Functionality
 

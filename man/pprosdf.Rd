@@ -4,7 +4,7 @@
 \alias{pprosdf}
 \title{pprosdf}
 \usage{
-pprosdf(input, targetdir, repositories, flag)
+pprosdf(input, targetdir, repositories, flag, cut_100 = T, t_size = 10)
 }
 \arguments{
 \item{input}{input file}
@@ -14,6 +14,10 @@ pprosdf(input, targetdir, repositories, flag)
 \item{repositories}{input repository}
 
 \item{flag}{file flag}
+
+\item{cut_100}{limit training data to "y2010"}
+
+\item{t_size}{time step size used for cross valiadation}
 }
 \value{
 Data frame

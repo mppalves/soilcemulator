@@ -1,3 +1,21 @@
+#' @title run_analysis
+#' @author Marcos Alves \email{mppalves@gmail.com}
+#' @description Run Analysis take as input two sets of values (input and output
+#'  data) and run a series of analysis outputing statistics and graphs to check
+#'  how well the two datasets fit each other.
+#' @param output_data Model predictions
+#' @param input_data Original data
+#' @param title String used to name the plots and the exported files
+#' @param cor Hexadecimal or color name used to color details in plots
+#' @param unit unit measure for the output
+#' @param comment Comment to printed in the .txt statistical file results
+#' @export run_analysis
+#' @import stringr
+#'
+#' @import utils
+#' @import ggplot2
+#' @export
+
 run_analysis <- function(output_data, input_data, title, cor, unit, comment = NULL) {
 
   # comparing results
@@ -17,6 +35,10 @@ run_analysis <- function(output_data, input_data, title, cor, unit, comment = NU
 
   size <- max(input_data) * 0.02
 
+  # Initiating magritte variables
+  Output <- NULL
+  Distribution <- NULL
+
   histo1 <- ggplot(dat, aes(x = Output, fill = Distribution)) +
     geom_histogram(binwidth = size, alpha = .5, colour = "#595959", position = "identity") +
     # facet_grid(Distribution ~ .) +
@@ -28,10 +50,10 @@ run_analysis <- function(output_data, input_data, title, cor, unit, comment = NU
   print(histo1)
 
   ggsave(paste0(title, "_histogram_", str_remove(str_remove(Sys.time(), ":"), ":"), ".pdf"),
-         width = 22,
-         height = 15,
-         units = "cm",
-         limitsize = TRUE
+    width = 22,
+    height = 15,
+    units = "cm",
+    limitsize = TRUE
   )
 
   histo2 <- ggplot(as.data.frame(Residuals), aes(x = Residuals)) +
@@ -43,18 +65,16 @@ run_analysis <- function(output_data, input_data, title, cor, unit, comment = NU
   print(histo2)
 
   ggsave(paste0(title, "_residuals_", str_remove(str_remove(Sys.time(), ":"), ":"), ".pdf"),
-         width = 15,
-         height = 15,
-         units = "cm",
-         limitsize = TRUE
+    width = 15,
+    height = 15,
+    units = "cm",
+    limitsize = TRUE
   )
-
-
 
   # plotting with ggplot and adding a density function
   ggplot_dataset <- data.frame(input_data, output_data)
-  index_sample <- sample(nrow(ggplot_dataset), nrow(ggplot_dataset)*0.1)
-  ggplot_dataset <- ggplot_dataset[index_sample,]
+  index_sample <- sample(nrow(ggplot_dataset), nrow(ggplot_dataset) * 0.3)
+  ggplot_dataset <- ggplot_dataset[index_sample, ]
   scatter <- ggplot(data = ggplot_dataset, aes(x = input_data, y = output_data)) +
     geom_point(size = 0.1, stroke = 0, shape = 16, alpha = 0.7) +
     ylab(paste0("Predicted output", unit)) +
@@ -69,12 +89,11 @@ run_analysis <- function(output_data, input_data, title, cor, unit, comment = NU
   print(scatter)
 
   ggsave(paste0(title, "_dispersion_", str_remove(str_remove(Sys.time(), ":"), ":"), ".pdf"),
-         width = 15,
-         height = 15,
-         units = "cm",
-         limitsize = F
+    width = 15,
+    height = 15,
+    units = "cm",
+    limitsize = F
   )
-
 
 
   if (!is.null(comment)) {

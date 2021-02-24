@@ -1,7 +1,7 @@
 Package: mrscpmule
 Title: madrat based soil carbon pasture emulator creator
-Version: 1.0.0
-Date: 2021-02-19
+Version: 2.0.0
+Date: 2021-02-24
 Authors@R: c(person("Alves", "Marcos", email = "pedrosa@pik-potsdam.de", role = c("aut","cre")))
 Description: Provides functions for the creation of a Machine learning emulator based on magpie preprocessing files.
 Depends:
@@ -13,6 +13,10 @@ Imports:
     gms,
     tidyr,
     stringi,
+    digest,
+    ggplot2,
+    keras,
+    stringr
 License: LGPL-3 | file LICENSE
 URL: https://github.com/mppalves/mrscpmule,
 LazyData: no

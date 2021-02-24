@@ -5,6 +5,8 @@
 #' @param targetdir output directory
 #' @param repositories input repository
 #' @param flag file flag
+#' @param cut_100 limit training data to "y2010"
+#' @param t_size time step size used for cross valiadation
 #' @author Marcos Alves
 #' @import magclass
 #' @importFrom gms download_unpack
@@ -12,6 +14,7 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom dplyr mutate
 #' @importFrom digest sha1
+#' @export
 
 # library(magclass)
 # library(gms)
@@ -36,49 +39,48 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
 
   filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)
 
-  if(dir.exists(targetdir)){
+  if (dir.exists(targetdir)) {
     setwd(targetdir)
   } else {
-    stop(paste("Output directory was not created sucessfully",targetdir))
+    stop(paste("Output directory was not created sucessfully", targetdir))
   }
 
   files <- list.files(targetdir)
   tag_index <- grep(flag, files)
-  if(length(tag_index)<1){
+  if (length(tag_index) < 1) {
     stop(paste0("None of the files in ", targetdir, "is flagged as ", flag))
   }
   unlink(files[-tag_index])
 
-  if(length(tag_files)>2){
+  if (length(tag_files) > 2) {
     stop(c("More than 2 tagged files. Cannot handle this case. ", print(tag_files)))
   }
 
-  features     <- read.magpie(grep("Envi",files[tag_index], value = T))
-  labels       <- read.magpie(grep("pstock",files[tag_index], value = T))
-  gcm          <- unlist(stri_split_fixed(getNames(features)[1], "_", n=2))[2]
-  features_exp <- add_columns(features, addnm = paste0(flag,"_",gcm))
+  features <- read.magpie(grep("Envi", files[tag_index], value = T))
+  labels <- read.magpie(grep("pstock", files[tag_index], value = T))
+  gcm <- unlist(stri_split_fixed(getNames(features)[1], "_", n = 2))[2]
+  features_exp <- add_columns(features, addnm = paste0(flag, "_", gcm))
   features_exp <- add_dimension(features_exp, dim = 3.1, add = "lsu_density", nm = getNames(labels))
 
-  features_exp[,,paste0(flag,"_",gcm)] <- labels
+  features_exp[, , paste0(flag, "_", gcm)] <- labels
   out <- as.data.frame(features_exp)
   out <- pivot_wider(out, id_cols = c(Cell, Region, Year, Data1), names_from = Data2, values_from = Value)
-  out <- mutate(out, Data1 = as.numeric(gsub("p",".",Data1)), Year = as.numeric(as.character(Year)))
+  out <- mutate(out, Data1 = as.numeric(gsub("p", ".", Data1)), Year = as.numeric(as.character(Year)))
 
   colnames(out)[grep("Data1", colnames(out))] <- "lsu_ha"
-  if(!all(sapply(out[,4:ncol(out)],is.numeric))){
+  if (!all(sapply(out[, 4:ncol(out)], is.numeric))) {
     warning("Check the output dataframe for non-numeric features")
   }
-  years <- as.data.frame(out[,"Year"])
+  years <- as.data.frame(out[, "Year"])
   timestep <- unlist(years - years %% t_size)
   out$timestep <- timestep
 
-  if(cut_100 == T){
-    out <- out[out$Year<=2100,]
+  if (cut_100 == T) {
+    out <- out[out$Year <= 2100, ]
   }
 
   dfid <- digest::sha1(out)
   attr(out, "dfid") <- dfid
-  saveRDS(out, file = paste0("training_data_",dfid,".rds"))
+  saveRDS(out, file = paste0("training_data_", dfid, ".rds"))
   return(out)
 }
-

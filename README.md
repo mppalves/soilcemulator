@@ -1,8 +1,8 @@
-# madrat based soil carbon pasture emulator creator
+# Soil carbon pasture emulator creator
 
-R package **mrscpmule**, version **2.0.0**
+R package **soilcemulator**, version **2.0.0**
 
-[![CRAN status](https://www.r-pkg.org/badges/version/mrscpmule)](https://cran.r-project.org/package=mrscpmule)    
+[![CRAN status](https://www.r-pkg.org/badges/version/soilcemulator)](https://cran.r-project.org/package=soilcemulator)    
 
 ## Purpose and Functionality
 
@@ -21,7 +21,7 @@ The additional repository can be made available permanently by adding the line a
 After that the most recent version of the package can be installed using `install.packages`:
 
 ```r 
-install.packages("mrscpmule")
+install.packages("soilcemulator")
 ```
 
 Package updates can be installed using `update.packages` (make sure that the additional repository has been added before running that command):
@@ -36,16 +36,15 @@ In case of questions / problems please contact Alves Marcos <pedrosa@pik-potsdam
 
 ## Citation
 
-To cite package **mrscpmule** in publications use:
+To cite package **soilcemulator** in publications use:
 
-Marcos A (2021). _mrscpmule: madrat based soil carbon pasture emulator creator_.
-https://github.com/mppalves/mrscpmule,.
+Marcos A (2021). _soilcemulator: Soil carbon pasture emulator creator_. https://github.com/mppalves/mrscpmule,.
 
 A BibTeX entry for LaTeX users is
 
  ```latex
 @Manual{,
-  title = {mrscpmule: madrat based soil carbon pasture emulator creator},
+  title = {soilcemulator: Soil carbon pasture emulator creator},
   author = {Alves Marcos},
   year = {2021},
   note = {https://github.com/mppalves/mrscpmule,},

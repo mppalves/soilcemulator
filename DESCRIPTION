@@ -1,5 +1,5 @@
-Package: mrscpmule
-Title: madrat based soil carbon pasture emulator creator
+Package: soilcemulator
+Title: Soil carbon pasture emulator creator
 Version: 2.0.0
 Date: 2021-02-24
 Authors@R: c(person("Alves", "Marcos", email = "pedrosa@pik-potsdam.de", role = c("aut","cre")))

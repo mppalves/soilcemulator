@@ -17,7 +17,7 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
 
   datadf <- pprosdf[, features]
 
-  datadf <- scale(datadf)
+  datadf <- scale(datadf)+1
   col_means <- attr(datadf, "scaled:center")
   col_stddevs <- attr(datadf, "scaled:scale")
   datadf <- datadf[skip, ]

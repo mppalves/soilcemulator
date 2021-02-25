@@ -17,7 +17,7 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
 
   datadf <- pprosdf[, features]
 
-  datadf <- scale(datadf)+1
+  datadf <- scale(datadf)
   col_means <- attr(datadf, "scaled:center")
   col_stddevs <- attr(datadf, "scaled:scale")
   datadf <- datadf[skip, ]
@@ -32,9 +32,9 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
   train_ind <- sample(seq_len(nrow(datadf)), size = smp_size)
 
   train_data <- datadf[train_ind, !output]
-  train_labels <- datadf[train_ind, output]
+  train_labels <- datadf[train_ind, output] + 1
   test_data <- datadf[-train_ind, !output]
-  test_labels <- datadf[-train_ind, output]
+  test_labels <- datadf[-train_ind, output] + 1
 
   # converting data frames into matrix
   train_data <- as.matrix(train_data)

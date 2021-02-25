@@ -11,6 +11,7 @@
 #' @export
 
 ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
+  set.seed(123)
   features <- features[["select"]]
   dfid <- attr(pprosdf, "dfid")
   skip <- pprosdf$timestep != skip_timestep

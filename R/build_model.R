@@ -14,7 +14,9 @@
 build_model <- function(units, activation, input_shape, loss, optimizer) {
   model <- keras_model_sequential() %>%
     layer_dense(units = units[1], activation = activation, input_shape = input_shape) %>%
+    layer_dropout(rate = 0.3, seed = 123) %>%
     layer_dense(units = units[2], activation = activation) %>%
+    layer_dropout(rate = 0.3, seed = 123) %>%
     layer_dense(units = units[3])
 
   model %>% compile(

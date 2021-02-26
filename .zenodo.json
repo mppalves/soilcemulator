@@ -1,6 +1,6 @@
 {
   "title": "soilcemulator: Soil carbon pasture emulator creator",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "<p>Provides functions for the creation of a Machine learning emulator based on magpie preprocessing files.<\/p>",
   "creators": [
     {

@@ -127,8 +127,8 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
   if (is.null(ext_type)) {
     stop("Invalid type. Please use 's' for soil carbon, 'p' for pasture yields and 'l' for lsu numbers ")
   }
-
-  printer <- file(paste0(type, "_declarations", ".txt"), "w")
+  hash <- substr(model_hash, 1, 6)
+  printer <- file(paste0(hash,"_",type, "_declarations", ".txt"), "w")
   write(paste("* model hash ID", model_hash), file = printer, append = T)
   # declaring variables
 
@@ -224,7 +224,7 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
 
 write_inputs <- function(weights_names, dec, sets, module, type, module_number, model_hash) {
   hash <- substr(model_hash, 1, 6)
-  printer <- file(paste0(type, "_inputs", ".txt"), "w")
+  printer <- file(paste0(hash,"_",type, "_inputs", ".txt"), "w")
   write(paste("* model hash ID", model_hash), file = printer, append = T)
 
   w <- paste0("f", module_number, "_nn_input")
@@ -293,7 +293,8 @@ write_equations <- function(dec, sets, wb, type, model_hash) {
   # x <- append(x, paste0(grep("min", dec[[2]], value = T), "(j2)..  ", dec[[1]][1], "(j2) =g= -2;"))
   # x <- append(x, paste0(grep("rlsu", dec[[2]], value = T), "(j2)..  ", dec[[3]][2], "(j2) =e= ", dec[[1]][1], "(j2)", " * ", dec[[4]][2], " + ", dec[[4]][1], ";"))
 
-  printer <- file(paste0(type, "_equations", ".txt"), "w")
+  hash <- substr(model_hash, 1, 6)
+  printer <- file(paste0(hash,"_",type, "_equations", ".txt"), "w")
   write(paste("* model hash ID", model_hash), file = printer, append = T)
   write(x, file = printer)
   close(printer)

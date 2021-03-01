@@ -32,7 +32,7 @@ run_batch_rmse <- function(pprosdf, trained_model, features, targetdir, modelid)
     datadf <- datadf[selected, ]
     output <- grepl(pattern = "soil+", colnames(datadf))
     test_data <- as.matrix(datadf[, !output])
-    test_labels <- as.matrix(datadf[, output] + 1)
+    test_labels <- as.matrix(datadf[, output]) + 1
     test_predictions <- trained_model %>% predict(test_data)
     results[results[, 1] == run, "RMSE"] <- RMSE(test_labels, test_predictions)
     setwd(output_dir)

@@ -25,7 +25,7 @@ tsample <- function(pprosdf, features, plot_test = F) {
     datadf <- pprosdf[, features]
     cells <- mutate(pprosdf[which(pprosdf[, "Year"] == 2000 & pprosdf[, "lsu_ha"] == 0), ], cells = paste0(Region, "_", Cell))[, "cells"]
   }
-  datadf <- scale(datadf)
+  #datadf <- scale(datadf)
 
   # divide data in training and testing
   output <- grepl(pattern = "soil+", colnames(datadf))

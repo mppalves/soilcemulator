@@ -18,9 +18,9 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
 
   datadf <- pprosdf[, features]
 
-  datadf <- scale(datadf)
-  col_means <- attr(datadf, "scaled:center")
-  col_stddevs <- attr(datadf, "scaled:scale")
+  # datadf <- scale(datadf)
+  # col_means <- attr(datadf, "scaled:center")
+  # col_stddevs <- attr(datadf, "scaled:scale")
   datadf <- datadf[skip, ]
 
   # randomize data in df
@@ -48,8 +48,8 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
   dir.create(as.character(skip_timestep), showWarnings = T)
   setwd(as.character(skip_timestep))
 
-  saveRDS(col_means, file = paste0("means_", dfid, ".Rds"))
-  saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".Rds"))
+  # saveRDS(col_means, file = paste0("means_", dfid, ".Rds"))
+  # saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".Rds"))
   saveRDS(inputs, file = paste0("inputs_", dfid, ".Rds"))
 
   # writting model information
@@ -64,9 +64,9 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
     "train_labels" = train_labels,
     "test_data" = test_data,
     "test_labels" = test_labels,
-    "inputs" = inputs,
-    "col_means" = col_means,
-    "col_stddev" = col_stddevs
+    "inputs" = inputs
+    # "col_means" = col_means,
+    # "col_stddev" = col_stddevs
   )
 
   attr(x, "timestep") <- skip_timestep

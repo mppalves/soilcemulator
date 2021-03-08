@@ -56,8 +56,8 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
     stop(c("More than 2 tagged files. Cannot handle this case. ", print(tag_files)))
   }
 
-  features <- read.magpie(grep("Envi", files[tag_index], value = T))
-  labels <- read.magpie(grep("pstock", files[tag_index], value = T))
+  features <- read.magpie(grep("Envi", files[tag_index], value = T, ignore.case = T))
+  labels <- read.magpie(grep("stock", files[tag_index], value = T, ignore.case = T))
   gcm <- unlist(stri_split_fixed(getNames(features)[1], "_", n = 2))[2]
   features_exp <- add_columns(features, addnm = paste0(flag, "_", gcm))
   features_exp <- add_dimension(features_exp, dim = 3.1, add = "lsu_density", nm = getNames(labels))

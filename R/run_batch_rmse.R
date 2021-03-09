@@ -26,9 +26,9 @@ run_batch_rmse <- function(pprosdf, trained_model, features, targetdir, modelid)
     selected <- pprosdf$timestep == as.numeric(run)
     datadf <- pprosdf[, features]
     setwd(run)
-    col_means <- readRDS(grep("means", list.files(), value = T))
-    col_stddevs <- readRDS(grep("stddevs", list.files(), value = T))
-    datadf <- scale(datadf, center = col_means, scale = col_stddevs)
+    # col_means <- readRDS(grep("means", list.files(), value = T))
+    # col_stddevs <- readRDS(grep("stddevs", list.files(), value = T))
+    # datadf <- scale(datadf, center = col_means, scale = col_stddevs)
     datadf <- datadf[selected, ]
     output <- grepl(pattern = "soil+", colnames(datadf))
     test_data <- as.matrix(datadf[, !output])

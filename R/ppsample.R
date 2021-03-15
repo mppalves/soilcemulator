@@ -10,7 +10,7 @@
 #' @import utils
 #' @export
 
-ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features) {
+ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf)) {
   set.seed(123)
   features <- features[["select"]]
   dfid <- attr(pprosdf, "dfid")

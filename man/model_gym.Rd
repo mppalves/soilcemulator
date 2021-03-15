@@ -4,7 +4,13 @@
 \alias{model_gym}
 \title{model_gym}
 \usage{
-model_gym(pprosdf, ppsample, runmeta, modelid, features)
+model_gym(
+  pprosdf,
+  ppsample,
+  runmeta,
+  modelid,
+  features = select_features(pprosdf)
+)
 }
 \arguments{
 \item{pprosdf}{pre processed dataset}

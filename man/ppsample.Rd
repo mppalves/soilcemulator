@@ -4,7 +4,12 @@
 \alias{ppsample}
 \title{ppsample}
 \usage{
-ppsample(pprosdf, skip_timestep = NULL, p = 0.9, features)
+ppsample(
+  pprosdf,
+  skip_timestep = NULL,
+  p = 0.9,
+  features = select_features(pprosdf)
+)
 }
 \arguments{
 \item{pprosdf}{pre processed dataset}

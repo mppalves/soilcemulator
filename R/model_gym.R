@@ -18,7 +18,7 @@
 #' @export
 
 
-model_gym <- function(pprosdf, ppsample, runmeta, modelid, features) {
+model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_features(pprosdf)) {
 
   # initiating magrrit variables
   mae <- NULL

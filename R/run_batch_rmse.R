@@ -8,7 +8,7 @@
 #' @param features columns selected for training
 #' @export
 
-run_batch_rmse <- function(pprosdf, trained_model, features, targetdir, modelid) {
+run_batch_rmse <- function(pprosdf, trained_model, features = select_features(pprosdf), targetdir, modelid) {
   features <- features[["select"]]
   output_dir <- grep(modelid, list.dirs(targetdir, recursive = F), value = T)
   runs <- list.dirs(output_dir, recursive = F, full.names = F)

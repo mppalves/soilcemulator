@@ -4,7 +4,13 @@
 \alias{run_batch_rmse}
 \title{run_batch_rmse}
 \usage{
-run_batch_rmse(pprosdf, trained_model, features, targetdir, modelid)
+run_batch_rmse(
+  pprosdf,
+  trained_model,
+  features = select_features(pprosdf),
+  targetdir,
+  modelid
+)
 }
 \arguments{
 \item{pprosdf}{pre processed dataset}

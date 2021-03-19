@@ -75,8 +75,8 @@ run_analysis <- function(output_data, input_data, title, cor, unit, comment = NU
   ggplot_dataset <- data.frame(input_data, output_data)
   index_sample <- sample(nrow(ggplot_dataset), nrow(ggplot_dataset) * 0.3)
   ggplot_dataset <- ggplot_dataset[index_sample, ]
-  scatter <- ggplot(aes(x = ggplot_dataset[,1], y = ggplot_dataset[,2])) +
-    geom_point(size = 0.1, stroke = 0, shape = 16, alpha = 0.7) +
+  scatter <- ggplot() +
+    geom_point(aes(x = ggplot_dataset[,1], y = ggplot_dataset[,2]), size = 0.1, stroke = 0, shape = 16, alpha = 0.7) +
     ylab(paste0("Predicted output", unit)) +
     xlab(paste0("Original output", unit)) +
     ggtitle(paste0(title), subtitle = "Output correlation between Orginal and Predicted") +

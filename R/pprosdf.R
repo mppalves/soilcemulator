@@ -61,8 +61,8 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   gcm <- unlist(stri_split_fixed(getNames(features)[1], "_", n = 2))[2]
   features_exp <- add_columns(features, addnm = paste0(flag, "_", gcm))
   features_exp <- add_dimension(features_exp, dim = 3.1, add = "lsu_density", nm = getNames(labels))
-
-  features_exp[, , paste0(flag, "_", gcm)] <- labels
+  years <- intersect(getYears(features), getYears(labels))
+  features_exp[, years, paste0(flag, "_", gcm)] <- labels[, years, ]
   out <- as.data.frame(features_exp)
   out <- pivot_wider(out, id_cols = c(Cell, Region, Year, Data1), names_from = Data2, values_from = Value)
   out <- mutate(out, Data1 = as.numeric(gsub("p", ".", Data1)), Year = as.numeric(as.character(Year)))
@@ -79,7 +79,7 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
     out <- out[out$Year <= 2100, ]
   }
 
-  dfid <- digest::sha1(out)
+  dfid <- digest::digest(out, "xxhash32")
   attr(out, "dfid") <- dfid
   saveRDS(out, file = paste0("training_data_", dfid, ".rds"))
   return(out)

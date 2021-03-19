@@ -4,12 +4,10 @@
 \alias{select_features}
 \title{select_features}
 \usage{
-select_features(pprosdf, sel_feat)
+select_features(pprosdf)
 }
 \arguments{
 \item{pprosdf}{pre processed dataframe}
-
-\item{sel_feat}{character vector with column id characters}
 }
 \value{
 list containing `input_shape` and boolean vector of selected columns

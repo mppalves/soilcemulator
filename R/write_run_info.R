@@ -34,7 +34,7 @@ write_run_info <- function(targetdir, run_title = "Soilc", runmeta, pprosdf) {
   )
 
   y <- capture.output(x)
-  m_hash <- sha1(paste0(y, collapse = ""))
+  m_hash <- digest::digest(paste0(y, collapse = ""), "xxhash32")
   n_layers <- length(grep("units", y))
   y <- append(y, paste0("model ID hash: ", m_hash))
 

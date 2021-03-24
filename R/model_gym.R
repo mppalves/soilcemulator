@@ -64,7 +64,7 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   c(loss, mae) %<-% (model %>% evaluate(ppsample[["test_data"]], ppsample[["test_labels"]], verbose = 2))
 
   # saving training plot
-  postscript(file = paste0("Learning_curve_", modelid, ".eps"), horizontal = TRUE, onefile = FALSE, width = 9, height = 5, paper = "letter")
+  postscript(file = paste0("Learning_curve_", modelid, ".eps"), horiz = TRUE, onefile = FALSE, width = 9, height = 5, paper = "letter")
   plot(history, metrics = "mean_absolute_error", smooth = T)
   paste0("Mean squared error on test set: ", sprintf("%.2f", mae))
   dev.off()

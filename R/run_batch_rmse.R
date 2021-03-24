@@ -6,9 +6,10 @@
 #' @param pprosdf pre processed dataset
 #' @param trained_model trained keras model
 #' @param features columns selected for training
+#' @param offset use if scaled output values are offset
 #' @export
 
-run_batch_rmse <- function(pprosdf, trained_model, features = select_features(pprosdf), targetdir, modelid) {
+run_batch_rmse <- function(pprosdf, trained_model, features = select_features(pprosdf), targetdir, modelid, offset = 0) {
   features <- features[["select"]]
   output_dir <- grep(modelid, list.dirs(targetdir, recursive = F), value = T)
   runs <- list.dirs(output_dir, recursive = F, full.names = F)
@@ -32,7 +33,7 @@ run_batch_rmse <- function(pprosdf, trained_model, features = select_features(pp
     datadf <- datadf[selected, ]
     output <- grepl(pattern = "soil+", colnames(datadf))
     test_data <- as.matrix(datadf[, !output])
-    test_labels <- as.matrix(datadf[, output]) + 1 #as the scaled labels are off-centered by 1 in the
+    test_labels <- as.matrix(datadf[, output]) + offset #use if scaled data is offset by a value
     test_predictions <- trained_model %>% predict(test_data)
     results[results[, 1] == run, "RMSE"] <- RMSE(test_labels, test_predictions)
     setwd(output_dir)

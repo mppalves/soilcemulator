@@ -9,7 +9,8 @@ run_batch_rmse(
   trained_model,
   features = select_features(pprosdf),
   targetdir,
-  modelid
+  modelid,
+  offset = 0
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ run_batch_rmse(
 \item{targetdir}{output directory}
 
 \item{modelid}{model id output from \link{write_run_info}}
+
+\item{offset}{use if scaled output values are offset}
 }
 \description{
 run_analysis for cross valiation batches

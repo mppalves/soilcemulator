@@ -1,6 +1,6 @@
 # Soil carbon pasture emulator creator
 
-R package **soilcemulator**, version **2.2.0**
+R package **soilcemulator**, version **2.2.1**
 
 [![CRAN status](https://www.r-pkg.org/badges/version/soilcemulator)](https://cran.r-project.org/package=soilcemulator)    
 
@@ -38,9 +38,7 @@ In case of questions / problems please contact Alves Marcos <pedrosa@pik-potsdam
 
 To cite package **soilcemulator** in publications use:
 
-Marcos A (2021). _soilcemulator: Soil carbon pasture
-emulator creator_.
-https://github.com/mppalves/mrscpmule,.
+Marcos A (2021). _soilcemulator: Soil carbon pasture emulator creator_. https://github.com/mppalves/mrscpmule,.
 
 A BibTeX entry for LaTeX users is
 

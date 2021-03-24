@@ -5,12 +5,13 @@
 #' @param skip_timestep time step to be skipped in the sample (cross validation)
 #' @param p train/test data split
 #' @param features Boolean vector list containing the selected features
+#' @param offset offset value for 0 centered scale outputs
 #' @author Marcos Alves
 #' @import magclass
 #' @import utils
 #' @export
 
-ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf)) {
+ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf), offset = 0) {
   set.seed(123)
   features <- features[["select"]]
   dfid <- attr(pprosdf, "dfid")
@@ -33,9 +34,9 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
   train_ind <- sample(seq_len(nrow(datadf)), size = smp_size)
 
   train_data <- datadf[train_ind, !output]
-  train_labels <- datadf[train_ind, output] + 1
+  train_labels <- datadf[train_ind, output] + offset
   test_data <- datadf[-train_ind, !output]
-  test_labels <- datadf[-train_ind, output] + 1
+  test_labels <- datadf[-train_ind, output] + offset
 
   # converting data frames into matrix
   train_data <- as.matrix(train_data)

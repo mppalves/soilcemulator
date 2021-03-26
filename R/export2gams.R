@@ -127,7 +127,7 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
   if (is.null(ext_type)) {
     stop("Invalid type. Please use 's' for soil carbon, 'p' for pasture yields and 'l' for lsu numbers ")
   }
-  hash <- substr(model_hash, 1, 6)
+  hash <- model_hash
   printer <- file(paste0(hash,"_",type, "_declarations", ".txt"), "w")
   write(paste("* model hash ID", model_hash), file = printer, append = T)
   # declaring variables
@@ -223,7 +223,7 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
 
 
 write_inputs <- function(weights_names, dec, sets, module, type, module_number, model_hash) {
-  hash <- substr(model_hash, 1, 6)
+  hash <- model_hash
   printer <- file(paste0(hash,"_",type, "_inputs", ".txt"), "w")
   write(paste("* model hash ID", model_hash), file = printer, append = T)
 

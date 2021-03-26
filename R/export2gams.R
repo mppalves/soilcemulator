@@ -85,7 +85,7 @@ weights_names <- function(x) {
 
 
 write_sets <- function(weights_names, inputs_vec, type, model_hash) {
-  printer <- file(paste0(type, "_sets", ".txt"), "w")
+  printer <- file(paste0(model_hash,"_", type, "_sets", ".txt"), "w")
   write(paste("* model hash ID", model_hash), file = printer, append = T)
   # defining sets
   y <- paste0("in_types_", type)
@@ -96,7 +96,8 @@ write_sets <- function(weights_names, inputs_vec, type, model_hash) {
   }
   write("sets", file = printer, )
   x <- paste0(y[1], " Neural net input features / ", capture.output(cat(inputs_vec, sep = ", ")), " /")
-  x <- append(x, paste0(y[2], "(", y[1], ") LSU input type / LSU /"))
+  lsu_name <- grep("lsu", inputs_vec, value = T, ignore.case = T)
+  x <- append(x, paste0(y[2], "(", y[1], ") LSU input type /", lsu_name, " /"))
   x <- append(x, gsub("lsu,", "", paste0(y[3], "(", y[1], ") Weather input types /", capture.output(cat(inputs_vec, sep = ", ")), "/"), ignore.case = T))
 
   for (i in 1:length(weights_names)) {
@@ -166,7 +167,7 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
   dy <- append(dy, paste0("q", module_number, "_rlsu"))
   dy <- append(dy, paste0("q", module_number, "_maxlsu"))
   dy <- append(dy, paste0("q", module_number, "_minlsu"))
-  dy <- append(dy, paste0("q", module_number, "_", ext_type, "_yld"))
+  dy <- append(dy, paste0("q", module_number, "_", ext_type))
 
   zy <- NULL
   ay <- NULL
@@ -197,7 +198,7 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
   dw <- paste0("v", module_number, "_", ext_type, "_yld")
   dw <- append(dw, paste0("v", module_number, "_rlsu"))
 
-  write("positive variables", file = printer, append = T)
+  write("Variables", file = printer, append = T)
   w <- paste0(dw[1], "(j)", " output variable")
   w <- append(w, paste0(dw[2], "(j)", " real LSU variable"))
   w <- append(w, ";")
@@ -235,9 +236,9 @@ write_inputs <- function(weights_names, dec, sets, module, type, module_number, 
     x <- append(x, paste0("f", module_number, "_b", i))
   }
 
-  d <- paste0("table ", w, "(j,", sets[3], ") aggregated environmental cell values
+  d <- paste0("table ", w, "(t_all, j,", sets[3], ") aggregated environmental cell values
 $ondelim
-$include \"./modules/", module, "/input/environment_cell.csv\"
+$include \"./modules/", module, "/input/environment_scaled_new.cs3\"
 $offdelim
 ;")
 
@@ -276,7 +277,7 @@ $offdelim
 
 write_equations <- function(dec, sets, wb, type, model_hash) {
   x <- paste0(dec[[2]][1], "(j2,", sets[4], ")..  ", dec[[1]][2], "(j2,", sets[4], ") =e= sum(", sets[2], ", ", dec[[1]][1], "(j2) * ", wb[[2]][1], "(", sets[2], ",", sets[4], "));")
-  x <- append(x, paste0(dec[[2]][2], "(j2,", sets[4], ")..  ", dec[[1]][3], "(j2,", sets[4], ") =e= sum(", sets[3], ", ", wb[[1]][1], "(j2", ",", sets[3], ") * ", wb[[2]][1], "(", sets[3], ",", sets[4], "));"))
+  x <- append(x, paste0(dec[[2]][2], "(j2,", sets[4], ")..  ", dec[[1]][3], "(j2,", sets[4], ") =e= sum((", sets[3], "ct ), ", wb[[1]][1], "(ct, j2", ",", sets[3], ") * ", wb[[2]][1], "(", sets[3], ",", sets[4], "));"))
   x <- append(x, paste0(dec[[2]][7], "(j2,", sets[4], ")..  ", dec[[1]][4], "(j2,", sets[4], ") =e= ", dec[[1]][2], "(j2,", sets[4], ")", " + ", dec[[1]][3], "(j2,", sets[4], ")", " + ", wb[[3]][1], "(", sets[4], ")", ";"))
   x <- append(x, paste0(dec[[2]][8], "(j2,", sets[4], ")..  ", dec[[1]][5], "(j2,", sets[4], ") =e= 1/( 1 + system.exp(-", dec[[1]][4], "(j2,", sets[4], ")));"))
   j <- 5

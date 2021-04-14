@@ -6,6 +6,8 @@
 #' @param module magpie module number and name
 #' @param means named vector with feature means
 #' @param stddevs named vetor with feature std
+#' @param min min  scaling parameter
+#' @param max max  scaling parameter
 #' @param inputs_vec vector with input names
 #' @param type type of model created (s or p)
 #' @param model_hash model id hash
@@ -15,7 +17,7 @@
 #' @author Marcos Alves \email{mppalves@gmail.com}
 #' @import keras
 #' @import utils
-#' @usage export2gams(model, module, means, stddevs, inputs_vec, type, model_hash, flag)
+#' @usage export2gams(model, module, means, stddevs, min, max, inputs_vec, type, model_hash, flag)
 #' @export export2gams
 
 
@@ -114,7 +116,7 @@ write_sets <- function(weights_names, inputs_vec, type, model_hash) {
   return(y)
 }
 
-write_declarations <- function(weights_names, module_number, type, .mean_lsu, .std_lsu, .mean_out, .std_out, model_hash) {
+write_declarations <- function(weights_names, module_number, type, .mean_lsu=NULL, .std_lsu=NULL, .mean_out=NULL, .std_out=NULL, .min=NULL, .max=NULL, model_hash) {
   ext_type <- NULL
   if (type == "s") {
     ext_type <- "soilc"
@@ -204,16 +206,24 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu, .s
   w <- append(w, ";")
   write(w, file = printer, append = T)
 
-  ds <- paste0("s", module_number, "_lsu_mean")
-  ds <- append(ds, paste0("s", module_number, "_lsu_std"))
-  ds <- append(ds, paste0("s", module_number, "_out_mean"))
-  ds <- append(ds, paste0("s", module_number, "_out_std"))
+  ds <- NULL
+  if (!is.null(.mean_lsu)) ds <- paste0("s", module_number, "_lsu_mean")
+  if (!is.null(.std_lsu)) ds <- append(ds, paste0("s", module_number, "_lsu_std"))
+  if (!is.null(.mean_out)) ds <- append(ds, paste0("s", module_number, "_out_mean"))
+  if (!is.null(.std_out)) ds <- append(ds, paste0("s", module_number, "_out_std"))
+  if (!is.null(.min)) ds <- append(ds, paste0("s", module_number, "_min"))
+  if (!is.null(.max)) ds <- append(ds, paste0("s", module_number, "_max"))
 
-  write("scalars", file = printer, append = T)
-  s <- paste0(ds[1], " lsu conversion factor /", .mean_lsu, "/")
-  s <- append(s, paste0(ds[2], " lsu conversion factor /", .std_lsu, "/"))
-  s <- append(s, paste0(ds[3], " output conversion factor /", .mean_out, "/"))
-  s <- append(s, paste0(ds[4], " output conversion factor /", .std_out, "/"))
+    write("scalars", file = printer, append = T)
+
+  s <- NULL
+  if (!is.null(.mean_lsu))  s <- paste0(grep("mean_lsu",ds, value = T), " lsu conversion factor /", .mean_lsu, "/")
+  if (!is.null(.std_lsu))  s <- append(s, paste0(grep("std_lsu",ds, value = T), " lsu conversion factor /", .std_lsu, "/"))
+  if (!is.null(.mean_out))  s <- append(s, paste0(grep("mean_out",ds, value = T), " output conversion factor /", .mean_out, "/"))
+  if (!is.null(.std_out))  s <- append(s, paste0(grep("std_out",ds, value = T), " output conversion factor /", .std_out, "/"))
+  if (!is.null(.min))  s <- append(s, paste0(grep("min",ds, value = T), " output conversion factor /", .min, "/"))
+  if (!is.null(.max))  s <- append(s, paste0(grep("max",ds, value = T), " output conversion factor /", .max, "/"))
+
   s <- append(s, ";")
   write(s, file = printer, append = T)
   close(printer)
@@ -360,7 +370,7 @@ write_equations <- function(dec, sets, wb, type, model_hash) {
 #   return(k)
 # }
 
-export2gams <- function(model, module, means, stddevs, inputs_vec, type, model_hash, flag) {
+export2gams <- function(model, module, means=NULL, stddevs=NULL, min=NULL, max=NULL, inputs_vec, type, model_hash, flag) {
   module_number <- as.numeric(unlist(regmatches(module, gregexpr("\\d{2,}", module))))
   mean_lsu <- means[grep("lsu", names(means))]
   std_lsu <- stddevs[grep("lsu", names(stddevs))]
@@ -375,7 +385,7 @@ export2gams <- function(model, module, means, stddevs, inputs_vec, type, model_h
 
   # exporting gams code
   w_names <- weights_names(weights)
-  dec <- write_declarations(w_names, module_number, type, mean_lsu, std_lsu, mean_out, std_out, model_hash)
+  dec <- write_declarations(w_names, module_number, type, mean_lsu, std_lsu, mean_out, std_out,min,max, model_hash)
   sets <- write_sets(w_names, inputs_vec, type, model_hash)
   wb <- write_inputs(w_names, dec, sets, module, type, module_number, model_hash)
   write_equations(dec, sets, wb, type, model_hash)

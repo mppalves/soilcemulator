@@ -5,7 +5,7 @@
 \alias{list_col_names}
 \title{Export neural nets weights and biases to .csv and write gams code}
 \usage{
-export2gams(model, module, means, stddevs, inputs_vec, type, model_hash, flag)
+export2gams(model, module, means, stddevs, min, max, inputs_vec, type, model_hash, flag)
 }
 \arguments{
 \item{model}{trained model}
@@ -15,6 +15,10 @@ export2gams(model, module, means, stddevs, inputs_vec, type, model_hash, flag)
 \item{means}{named vector with feature means}
 
 \item{stddevs}{named vetor with feature std}
+
+\item{min}{min  scaling parameter}
+
+\item{max}{max  scaling parameter}
 
 \item{model_hash}{model id hash}
 

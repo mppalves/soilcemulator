@@ -1,6 +1,6 @@
 # Soil carbon pasture emulator creator
 
-R package **soilcemulator**, version **2.2.1**
+R package **soilcemulator**, version **2.3.0**
 
 [![CRAN status](https://www.r-pkg.org/badges/version/soilcemulator)](https://cran.r-project.org/package=soilcemulator)    
 

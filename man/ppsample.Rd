@@ -8,7 +8,8 @@ ppsample(
   pprosdf,
   skip_timestep = NULL,
   p = 0.9,
-  features = select_features(pprosdf)
+  features = select_features(pprosdf),
+  offset = 0
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ ppsample(
 \item{p}{train/test data split}
 
 \item{features}{Boolean vector list containing the selected features}
+
+\item{offset}{offset value for 0 centered scale outputs}
 }
 \value{
 Sample training in matrix format

@@ -99,7 +99,7 @@ write_sets <- function(weights_names, inputs_vec, type, model_hash) {
   write("sets", file = printer, )
   x <- paste0(y[1], " Neural net input features / ", capture.output(cat(inputs_vec, sep = ", ")), " /")
   lsu_name <- grep("lsu", inputs_vec, value = T, ignore.case = T)
-  x <- append(x, paste0(y[2], "(", y[1], ") LSU input type /", lsu_name, " /"))
+  x <- append(x, paste0(y[2], "(", y[1], ") LSU input type / ", lsu_name, " /"))
   x <- append(x, gsub("lsu,", "", paste0(y[3], "(", y[1], ") Weather input types /", capture.output(cat(inputs_vec, sep = ", ")), "/"), ignore.case = T))
 
   for (i in 1:length(weights_names)) {
@@ -187,7 +187,7 @@ write_declarations <- function(weights_names, module_number, type, .mean_lsu=NUL
   y <- append(y, paste0(dy[3], "(j)", " real lsu equation"))
   y <- append(y, paste0(dy[4], "(j)", " max LSU"))
   y <- append(y, paste0(dy[5], "(j)", " min LSU"))
-  y <- append(y, paste0(dy[6], "(j)", " output equation"))
+  y <- append(y, paste0(dy[6],"_out", "(j)", " output equation"))
 
 
   for (i in 1:(length(weights_names) - 1)) {
@@ -287,7 +287,7 @@ $offdelim
 
 write_equations <- function(dec, sets, wb, type, model_hash) {
   x <- paste0(dec[[2]][1], "(j2,", sets[4], ")..  ", dec[[1]][2], "(j2,", sets[4], ") =e= sum(", sets[2], ", ", dec[[1]][1], "(j2) * ", wb[[2]][1], "(", sets[2], ",", sets[4], "));")
-  x <- append(x, paste0(dec[[2]][2], "(j2,", sets[4], ")..  ", dec[[1]][3], "(j2,", sets[4], ") =e= sum((", sets[3], "ct ), ", wb[[1]][1], "(ct, j2", ",", sets[3], ") * ", wb[[2]][1], "(", sets[3], ",", sets[4], "));"))
+  x <- append(x, paste0(dec[[2]][2], "(j2,", sets[4], ")..  ", dec[[1]][3], "(j2,", sets[4], ") =e= sum((", sets[3], ",ct ), ", wb[[1]][1], "(ct, j2", ",", sets[3], ") * ", wb[[2]][1], "(", sets[3], ",", sets[4], "));"))
   x <- append(x, paste0(dec[[2]][7], "(j2,", sets[4], ")..  ", dec[[1]][4], "(j2,", sets[4], ") =e= ", dec[[1]][2], "(j2,", sets[4], ")", " + ", dec[[1]][3], "(j2,", sets[4], ")", " + ", wb[[3]][1], "(", sets[4], ")", ";"))
   x <- append(x, paste0(dec[[2]][8], "(j2,", sets[4], ")..  ", dec[[1]][5], "(j2,", sets[4], ") =e= 1/( 1 + system.exp(-", dec[[1]][4], "(j2,", sets[4], ")));"))
   j <- 5
@@ -299,7 +299,7 @@ write_equations <- function(dec, sets, wb, type, model_hash) {
       j <- j + 1
     }
   }
-  x <- append(x, paste0(grep("yld", dec[[2]], value = T), "(j2)..  ", dec[[3]][1], "(j2) =e= sum((", sets[length(sets) - 1], ",", sets[length(sets)], "), ", dec[[1]][length(dec[[1]]) - 2], "(j2,", sets[length(sets) - 1], ")", " * ", wb[[2]][length(wb[[3]])], "(", sets[length(sets) - 1], ",", sets[length(sets)], ") + ", wb[[3]][length(wb[[3]])], "(", sets[length(sets)], "));"))
+  x <- append(x, paste0(grep("_out", dec[[2]], value = T), "(j2)..  ", dec[[3]][1], "(j2) =e= sum((", sets[length(sets) - 1], ",", sets[length(sets)], "), ", dec[[1]][length(dec[[1]]) - 2], "(j2,", sets[length(sets) - 1], ")", " * ", wb[[2]][length(wb[[3]])], "(", sets[length(sets) - 1], ",", sets[length(sets)], ") + ", wb[[3]][length(wb[[3]])], "(", sets[length(sets)], "));"))
   # x <- append(x, paste0(grep("max", dec[[2]], value = T), "(j2)..  ", dec[[1]][1], "(j2) =l= 2;"))
   # x <- append(x, paste0(grep("min", dec[[2]], value = T), "(j2)..  ", dec[[1]][1], "(j2) =g= -2;"))
   # x <- append(x, paste0(grep("rlsu", dec[[2]], value = T), "(j2)..  ", dec[[3]][2], "(j2) =e= ", dec[[1]][1], "(j2)", " * ", dec[[4]][2], " + ", dec[[4]][1], ";"))

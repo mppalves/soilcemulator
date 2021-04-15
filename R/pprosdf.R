@@ -59,17 +59,17 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   features <- read.magpie(grep("Envi", files[tag_index], value = T, ignore.case = T))
   labels <- read.magpie(grep("stock", files[tag_index], value = T, ignore.case = T))
 
-  #############
-  ###Scaling###
-  #############
-  #labels
-  lmin <- min(labels)
-  lmax <- max(labels)
-  labels  <- (labels - lmin)/(lmax - lmin)
-  #features
-  fmin <- apply(features, 3, min)
-  fmax <- apply(features, 3, max)
-  features    <- (features - as.magpie(fmin))/(as.magpie(fmax) - as.magpie(fmin))
+  # #############
+  # ###Scaling###
+  # #############
+  # #labels
+  # lmin <- min(labels)
+  # lmax <- max(labels)
+  # labels  <- (labels - lmin)/(lmax - lmin)
+  # #features
+  # fmin <- apply(features, 3, min)
+  # fmax <- apply(features, 3, max)
+  # features    <- (features - as.magpie(fmin))/(as.magpie(fmax) - as.magpie(fmin))
 
   gcm <- unlist(stri_split_fixed(getNames(features)[1], "_", n = 2))[2]
   features_exp <- add_columns(features, addnm = paste0(flag, "_", gcm))
@@ -94,8 +94,8 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
 
   dfid <- digest::digest(out, "xxhash32")
   attr(out, "dfid") <- dfid
-  attr(out, "min") <- lmin
-  attr(out, "max") <- lmax
+  # attr(out, "min") <- lmin
+  # attr(out, "max") <- lmax
   saveRDS(out, file = paste0("training_data_", dfid, ".rds"))
   return(out)
 }

@@ -4,6 +4,7 @@
 #' @param pprosdf pre processed dataset
 #' @param skip_timestep time step to be skipped in the sample (cross validation)
 #' @param p train/test data split
+#' @param tag tag param
 #' @param features Boolean vector list containing the selected features
 #' @param offset offset value for 0 centered scale outputs
 #' @author Marcos Alves
@@ -11,7 +12,7 @@
 #' @import utils
 #' @export
 
-ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf), offset = 0) {
+ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf), offset = 0, tag) {
   set.seed(123)
   features <- features[["select"]]
   dfid <- attr(pprosdf, "dfid")
@@ -29,7 +30,7 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
   datadf <- datadf[sample.int(nr), ]
 
   # divide data in training and testing
-  output <- grepl(pattern = "soil+", colnames(datadf))
+  output <- grepl(pattern = paste0(tag,"+"), colnames(datadf))
   smp_size <- floor(p * nrow(datadf))
   train_ind <- sample(seq_len(nrow(datadf)), size = smp_size)
 

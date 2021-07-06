@@ -9,7 +9,8 @@ ppsample(
   skip_timestep = NULL,
   p = 0.9,
   features = select_features(pprosdf),
-  offset = 0
+  offset = 0,
+  tag
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ ppsample(
 \item{features}{Boolean vector list containing the selected features}
 
 \item{offset}{offset value for 0 centered scale outputs}
+
+\item{tag}{tag param}
 }
 \value{
 Sample training in matrix format

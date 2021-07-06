@@ -1,7 +1,7 @@
 Package: soilcemulator
 Title: Soil carbon pasture emulator creator
-Version: 2.3.2
-Date: 2021-07-06
+Version: 2.3.3
+Date: 2021-07-07
 Authors@R: c(person("Alves", "Marcos", email = "pedrosa@pik-potsdam.de", role = c("aut","cre")))
 Description: Provides functions for the creation of a Machine learning emulator based on magpie preprocessing files.
 Depends:

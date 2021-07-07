@@ -7,6 +7,7 @@
 #' @param flag file flag
 #' @param cut_100 limit training data to "y2010"
 #' @param t_size time step size used for cross valiadation
+#' @param download should data be downloaded
 #' @author Marcos Alves
 #' @import magclass
 #' @importFrom gms download_unpack
@@ -23,7 +24,7 @@
 # library(dplyr)
 # library(digest)
 
-pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 10) {
+pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 10, download = T) {
   # input = "rev4.51+mrmagpie_past2_h12_1d3efffd6e793f8aa6f3bf4219bd8ea3_cellularmagpie_debug.tgz"
   # targetdir = "C:/Users/pedrosa/Desktop/test/"
   # repositories = list("C:/Users/pedrosa/Desktop"= NULL)
@@ -37,12 +38,15 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   Value <- NULL
   tag_files <- NULL
 
-  filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)
+  if(download) {filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)}
 
   if (dir.exists(targetdir)) {
     setwd(targetdir)
   } else {
-    stop(paste("Output directory was not created sucessfully", targetdir))
+    dir.create(targetdir)
+    setwd(targetdir)
+     } else if (dir.exists(targetdir)) {
+     stop(paste("Output directory was not created sucessfully", targetdir))
   }
 
   files <- list.files(targetdir)
@@ -50,7 +54,7 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   if (length(tag_index) < 1) {
     stop(paste0("None of the files in ", targetdir, "is flagged as ", flag))
   }
-  unlink(files[-tag_index])
+  if(download) { unlink(files[-tag_index]) }
 
   if (length(tag_files) > 2) {
     stop(c("More than 2 tagged files. Cannot handle this case. ", print(tag_files)))

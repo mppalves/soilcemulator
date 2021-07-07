@@ -6,23 +6,26 @@
 #' @param p train/test data split
 #' @param tag tag param
 #' @param features Boolean vector list containing the selected features
+#' @param scale should values be scaled or not
 #' @param offset offset value for 0 centered scale outputs
 #' @author Marcos Alves
 #' @import magclass
 #' @import utils
 #' @export
 
-ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf), offset = 0, tag) {
+ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_features(pprosdf), offset = 0, tag, scale = T) {
   set.seed(123)
   features <- features[["select"]]
   dfid <- attr(pprosdf, "dfid")
   skip <- pprosdf$timestep != skip_timestep
 
   datadf <- pprosdf[, features]
+if(scale){
+  datadf <- scale(datadf)
+  col_means <- attr(datadf, "scaled:center")
+  col_stddevs <- attr(datadf, "scaled:scale")
+}
 
-  # datadf <- scale(datadf)
-  # col_means <- attr(datadf, "scaled:center")
-  # col_stddevs <- attr(datadf, "scaled:scale")
   datadf <- datadf[skip, ]
 
   # randomize data in df
@@ -49,9 +52,13 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
 
   dir.create(as.character(skip_timestep), showWarnings = T)
   setwd(as.character(skip_timestep))
-
-  # saveRDS(col_means, file = paste0("means_", dfid, ".Rds"))
-  # saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".Rds"))
+  if(scale){
+  saveRDS(col_means, file = paste0("means_", dfid, ".Rds"))
+  saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".Rds"))
+  } else {
+    col_means <- NULL
+    col_stddevs <- NULL
+  }
   saveRDS(inputs, file = paste0("inputs_", dfid, ".Rds"))
 
   # writting model information
@@ -66,9 +73,9 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
     "train_labels" = train_labels,
     "test_data" = test_data,
     "test_labels" = test_labels,
-    "inputs" = inputs
-    # "col_means" = col_means,
-    # "col_stddev" = col_stddevs
+    "inputs" = inputs,
+    "col_means" = col_means,
+    "col_stddev" = col_stddevs
   )
 
   attr(x, "timestep") <- skip_timestep
@@ -76,3 +83,5 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
 
   return(x)
 }
+
+

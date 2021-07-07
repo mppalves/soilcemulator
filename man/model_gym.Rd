@@ -9,7 +9,8 @@ model_gym(
   ppsample,
   runmeta,
   modelid,
-  features = select_features(pprosdf)
+  features = select_features(pprosdf),
+  tag
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ model_gym(
 \item{modelid}{model id output from \link{write_run_info}}
 
 \item{features}{boolean vector}
+
+\item{tag}{flag}
 }
 \value{
 Trained model

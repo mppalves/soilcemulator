@@ -6,6 +6,7 @@
 #' @param features boolean vector
 #' @param runmeta list with compiled model and parameters.
 #' @param modelid  model id output from \link{write_run_info}
+#' @param tag flag
 #' @author Marcos Alves
 #' @import keras
 #' @import tidyr
@@ -18,7 +19,7 @@
 #' @export
 
 
-model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_features(pprosdf)) {
+model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_features(pprosdf), tag) {
 
   # initiating magrrit variables
   mae <- NULL
@@ -84,7 +85,7 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   write.csv(x, file = paste0("excell_comparisson", "_", modelid, "_", dfid, ".csv"))
   close(file(paste0("excell_comparisson", "_", modelid, "_", dfid, ".csv")))
 
-  valid_data <- tsample(pprosdf, features, plot_test = F)
+  valid_data <- tsample(pprosdf, features, plot_test = F, tag=tag)
 
   # exporting inputs and outputs for quality analysis
   output_data <- model %>% predict(valid_data[["full_train"]])

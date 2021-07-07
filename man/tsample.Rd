@@ -4,7 +4,7 @@
 \alias{tsample}
 \title{tsample}
 \usage{
-tsample(pprosdf, features, plot_test = F)
+tsample(pprosdf, features, plot_test = F, tag)
 }
 \arguments{
 \item{pprosdf}{input file}
@@ -12,6 +12,8 @@ tsample(pprosdf, features, plot_test = F)
 \item{features}{output directory}
 
 \item{plot_test}{Whether the output should reduced to cluster cells for plotting}
+
+\item{tag}{flag}
 }
 \value{
 matrix

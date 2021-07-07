@@ -4,13 +4,14 @@
 #' @param pprosdf input file
 #' @param features output directory
 #' @param plot_test Whether the output should reduced to cluster cells for plotting
+#' @param tag flag
 #' @author Marcos Alves
 #' @import magclass
 #' @import utils
 #' @import dplyr
 #' @export
 
-tsample <- function(pprosdf, features, plot_test = F) {
+tsample <- function(pprosdf, features, plot_test = F, tag) {
 
   # Initiatin magrittr variables
   Region <- NULL
@@ -28,7 +29,7 @@ tsample <- function(pprosdf, features, plot_test = F) {
   #datadf <- scale(datadf)
 
   # divide data in training and testing
-  output <- grepl(pattern = "soil+", colnames(datadf))
+  output <- grepl(pattern = paste0(tag, "+"), colnames(datadf))
   full_train <- datadf[, !output]
   full_labels <- datadf[, output]
 

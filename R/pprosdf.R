@@ -45,7 +45,9 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   } else {
     dir.create(targetdir)
     setwd(targetdir)
-     } else if (dir.exists(targetdir)) {
+     }
+
+  if (dir.exists(targetdir)) {
      stop(paste("Output directory was not created sucessfully", targetdir))
   }
 

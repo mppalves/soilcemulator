@@ -45,11 +45,13 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   } else {
     dir.create(targetdir)
     setwd(targetdir)
-     }
-
-  if (dir.exists(targetdir)) {
-     stop(paste("Output directory was not created sucessfully", targetdir))
   }
+
+  if (!dir.exists(targetdir)) {
+    stop(paste("Output directory was not created sucessfully", targetdir))
+  }
+
+
 
   files <- list.files(targetdir)
   tag_index <- grep(flag, files)

@@ -4,7 +4,15 @@
 \alias{pprosdf}
 \title{pprosdf}
 \usage{
-pprosdf(input, targetdir, repositories, flag, cut_100 = T, t_size = 10)
+pprosdf(
+  input,
+  targetdir,
+  repositories,
+  flag,
+  cut_100 = T,
+  t_size = 10,
+  download = T
+)
 }
 \arguments{
 \item{input}{input file}
@@ -18,6 +26,8 @@ pprosdf(input, targetdir, repositories, flag, cut_100 = T, t_size = 10)
 \item{cut_100}{limit training data to "y2010"}
 
 \item{t_size}{time step size used for cross valiadation}
+
+\item{download}{should data be downloaded}
 }
 \value{
 Data frame

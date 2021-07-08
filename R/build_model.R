@@ -12,10 +12,20 @@
 #' @export
 
 build_model <- function(units, activation, input_shape, loss, optimizer) {
-  model <- keras_model_sequential() %>%
-    layer_dense(units = units[1], activation = activation, input_shape = input_shape) %>%
-    layer_dense(units = units[2], activation = activation) %>%
-    layer_dense(units = units[3])
+
+
+  x <- "model <- keras_model_sequential() %>%"
+  x <- append(x, "layer_dense(units = units[1], activation = activation, input_shape = input_shape) %>%")
+  for (i in 1:(length(units)-2)) {
+    x <- append(x, "layer_dense(units = units[2], activation = activation) %>%")
+  }
+  x <- append(x, " layer_dense(units = units[length(units)])")
+  eval(parse(text = x))
+
+  # model <- keras_model_sequential() %>%
+  #   layer_dense(units = units[1], activation = activation, input_shape = input_shape) %>%
+  #   layer_dense(units = units[2], activation = activation) %>%
+  #   layer_dense(units = units[3])
 
   model %>% compile(
     loss = loss,

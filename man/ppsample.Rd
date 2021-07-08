@@ -11,8 +11,7 @@ ppsample(
   features = select_features(pprosdf),
   offset = 0,
   tag,
-  scale = T,
-  download = T
+  scale = T
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ ppsample(
 \item{tag}{tag param}
 
 \item{scale}{should values be scaled or not}
-
-\item{download}{should data be downloaded}
 }
 \value{
 Sample training in matrix format

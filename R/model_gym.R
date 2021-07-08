@@ -31,6 +31,8 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   ppsample_x <- ppsample[["train_data"]]
   timestep <- attr(ppsample, "timestep")
   dfid <- attr(ppsample, "dfid")
+  means <- ppsample[["col_means"]]
+  std <- ppsample[["col_stddevs"]]
 
   ######################################################
   ### Model Fitting ####################################
@@ -85,7 +87,7 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   write.csv(x, file = paste0("excell_comparisson", "_", modelid, "_", dfid, ".csv"))
   close(file(paste0("excell_comparisson", "_", modelid, "_", dfid, ".csv")))
 
-  valid_data <- tsample(pprosdf, features, plot_test = F, tag=tag)
+  valid_data <- tsample(pprosdf, features, plot_test = F, tag=tag, means, std)
 
   # exporting inputs and outputs for quality analysis
   output_data <- model %>% predict(valid_data[["full_train"]])

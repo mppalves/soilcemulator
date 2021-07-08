@@ -20,12 +20,6 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
   skip <- pprosdf$timestep != skip_timestep
 
   datadf <- pprosdf[, features]
-if(scale){
-  datadf <- scale(datadf)
-  col_means <- attr(datadf, "scaled:center")
-  col_stddevs <- attr(datadf, "scaled:scale")
-}
-
   datadf <- datadf[skip, ]
 
   # randomize data in df
@@ -48,16 +42,31 @@ if(scale){
   test_data <- as.matrix(test_data)
   test_labels <- as.matrix(test_labels)
 
+  if(scale){
+    train_data  <- scale(train_data)
+    train_labels  <- scale(train_labels)
+    col_means   <- attr(train_data, "scaled:center")
+    col_stddevs <- attr(train_data, "scaled:scale")
+    label_means   <- attr(train_labels, "scaled:center")
+    label_stddevs <- attr(train_labels, "scaled:scale")
+    test_data   <- scale(test_data, center = col_means, scale = col_stddevs)
+    test_labels   <- scale(test_labels, center = label_means, scale = label_stddevs)
+  }
+
   inputs <- colnames(train_data)
 
   dir.create(as.character(skip_timestep), showWarnings = T)
   setwd(as.character(skip_timestep))
   if(scale){
-  saveRDS(col_means, file = paste0("means_", dfid, ".rds"))
-  saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".rds"))
+  saveRDS(col_means, file = paste0("means_col", dfid, ".rds"))
+  saveRDS(col_stddevs, file = paste0("stddevs_col", dfid, ".rds"))
+  saveRDS(label_means, file = paste0("means_lab", dfid, ".rds"))
+  saveRDS(label_stddevs, file = paste0("stddevs_lab", dfid, ".rds"))
   } else {
     col_means <- NULL
     col_stddevs <- NULL
+    label_means <- NULL
+    label_stddevs <- NULL
   }
   saveRDS(inputs, file = paste0("inputs_", dfid, ".rds"))
 
@@ -75,7 +84,9 @@ if(scale){
     "test_labels" = test_labels,
     "inputs" = inputs,
     "col_means" = col_means,
-    "col_stddev" = col_stddevs
+    "col_stddevs" = col_stddevs,
+    "label_means" <- label_means,
+    "label_stddevs" <- label_stddevs
   )
 
   attr(x, "timestep") <- skip_timestep

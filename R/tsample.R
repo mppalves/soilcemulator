@@ -5,13 +5,15 @@
 #' @param features output directory
 #' @param plot_test Whether the output should reduced to cluster cells for plotting
 #' @param tag flag
+#' @param means means
+#' @param std standard deviation
 #' @author Marcos Alves
 #' @import magclass
 #' @import utils
 #' @import dplyr
 #' @export
 
-tsample <- function(pprosdf, features, plot_test = F, tag) {
+tsample <- function(pprosdf, features, plot_test = F, tag, means, std) {
 
   # Initiatin magrittr variables
   Region <- NULL
@@ -26,9 +28,9 @@ tsample <- function(pprosdf, features, plot_test = F, tag) {
     datadf <- pprosdf[, features]
     cells <- mutate(pprosdf[which(pprosdf[, "Year"] == 2000 & pprosdf[, "lsu_ha"] == 0), ], cells = paste0(Region, "_", Cell))[, "cells"]
   }
-  #datadf <- scale(datadf)
+  datadf <- scale(datadf, center = means, scale = std)
 
-  # divide data in training and testing
+  # divide data in features and labes
   output <- grepl(pattern = paste0(tag, "+"), colnames(datadf))
   full_train <- datadf[, !output]
   full_labels <- datadf[, output]

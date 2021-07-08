@@ -4,7 +4,7 @@
 \alias{run_move_files}
 \title{run_batch_rmse}
 \usage{
-run_move_files(source_folder, modelid, targetdir)
+run_move_files(source_folder, modelid, targetdir, subtype)
 }
 \arguments{
 \item{source_folder}{madrat source folder}
@@ -12,6 +12,8 @@ run_move_files(source_folder, modelid, targetdir)
 \item{modelid}{model id output from \link{write_run_info}}
 
 \item{targetdir}{output directory}
+
+\item{subtype}{dataset subtype}
 }
 \description{
 run_analysis for cross valiation batches

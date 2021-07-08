@@ -12,8 +12,9 @@
 #' @import magclass
 #' @importFrom gms download_unpack
 #' @importFrom stringi stri_split_fixed
-#' @importFrom tidyr pivot_wider
-#' @importFrom dplyr mutate
+#' @import tidyr
+#' @import dplyr
+#' @import stringr
 #' @importFrom digest sha1
 #' @export
 
@@ -37,6 +38,7 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   Data2 <- NULL
   Value <- NULL
   tag_files <- NULL
+  . <- NULL
 
   if(download) {filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)}
 
@@ -51,8 +53,6 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
     stop(paste("Output directory was not created sucessfully", targetdir))
   }
 
-
-
   files <- list.files(targetdir)
   tag_index <- grep(flag, files)
   if (length(tag_index) < 1) {
@@ -66,6 +66,16 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
 
   features <- read.magpie(grep("Envi", files[tag_index], value = T, ignore.case = T))
   labels <- read.magpie(grep("stock", files[tag_index], value = T, ignore.case = T))
+
+  gsub("[\":-]","_",grep("subtype", strsplit(,",")[[1]], value=T))
+
+  subtype <- attr(features, "comment") %>%
+    grep("calcOutput", ., value = T) %>%
+    strsplit(",") %>%
+    unlist() %>%
+    grep("subtype", ., value = T) %>%
+    gsub("[:-]", "_", .) %>%
+    str_match("\"\\s*(.*?)\\s*\"")
 
   # #############
   # ###Scaling###
@@ -102,6 +112,7 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
 
   dfid <- digest::digest(out, "xxhash32")
   attr(out, "dfid") <- dfid
+  attr(out, "subtype") <- subtype
   # attr(out, "min") <- lmin
   # attr(out, "max") <- lmax
   saveRDS(out, file = paste0("training_data_", dfid, ".rds"))

@@ -53,13 +53,13 @@ if(scale){
   dir.create(as.character(skip_timestep), showWarnings = T)
   setwd(as.character(skip_timestep))
   if(scale){
-  saveRDS(col_means, file = paste0("means_", dfid, ".Rds"))
-  saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".Rds"))
+  saveRDS(col_means, file = paste0("means_", dfid, ".rds"))
+  saveRDS(col_stddevs, file = paste0("stddevs_", dfid, ".rds"))
   } else {
     col_means <- NULL
     col_stddevs <- NULL
   }
-  saveRDS(inputs, file = paste0("inputs_", dfid, ".Rds"))
+  saveRDS(inputs, file = paste0("inputs_", dfid, ".rds"))
 
   # writting model information
   x <- list("dfid" = dfid, "train_data" = head(train_data), "inputs" = inputs, "skip_timestep" = skip_timestep)

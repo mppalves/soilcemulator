@@ -55,7 +55,7 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   save_model_hdf5(model, paste0("model_", modelid, ".h5"))
   save_model_weights_hdf5(model, paste0("model_", modelid, "_weights.h5"))
   save(history, file = paste0("history_", modelid, ".rda"))
-  saveRDS(get_weights(model), file = paste0(modelid,"_weights", ".rds"))
+  saveRDS(get_weights(model), file = paste0("model_weights_",modelid, ".rds"))
 
   ######################################################
   ### Model evaluation #################################

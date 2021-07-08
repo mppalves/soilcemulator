@@ -67,8 +67,6 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   features <- read.magpie(grep("Envi", files[tag_index], value = T, ignore.case = T))
   labels <- read.magpie(grep("stock", files[tag_index], value = T, ignore.case = T))
 
-  gsub("[\":-]","_",grep("subtype", strsplit(,",")[[1]], value=T))
-
   subtype <- attr(features, "comment") %>%
     grep("calcOutput", ., value = T) %>%
     strsplit(",") %>%

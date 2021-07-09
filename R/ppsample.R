@@ -85,8 +85,8 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
     "inputs" = inputs,
     "col_means" = col_means,
     "col_stddevs" = col_stddevs,
-    "label_means" <- label_means,
-    "label_stddevs" <- label_stddevs
+    "label_means" = label_means,
+    "label_stddevs" = label_stddevs
   )
 
   attr(x, "timestep") <- skip_timestep

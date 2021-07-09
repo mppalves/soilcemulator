@@ -58,10 +58,10 @@ ppsample <- function(pprosdf, skip_timestep = NULL, p = 0.9, features = select_f
   dir.create(as.character(skip_timestep), showWarnings = T)
   setwd(as.character(skip_timestep))
   if(scale){
-  saveRDS(col_means, file = paste0("means_col", dfid, ".rds"))
-  saveRDS(col_stddevs, file = paste0("stddevs_col", dfid, ".rds"))
-  saveRDS(label_means, file = paste0("means_lab", dfid, ".rds"))
-  saveRDS(label_stddevs, file = paste0("stddevs_lab", dfid, ".rds"))
+  saveRDS(col_means, file = paste0("mean_col_", dfid, ".rds"))
+  saveRDS(col_stddevs, file = paste0("stddevs_col_", dfid, ".rds"))
+  saveRDS(label_means, file = paste0("mean_lab_", dfid, ".rds"))
+  saveRDS(label_stddevs, file = paste0("stddevs_lab_", dfid, ".rds"))
   } else {
     col_means <- NULL
     col_stddevs <- NULL

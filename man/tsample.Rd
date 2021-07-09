@@ -4,7 +4,16 @@
 \alias{tsample}
 \title{tsample}
 \usage{
-tsample(pprosdf, features, plot_test = F, tag, means, std)
+tsample(
+  pprosdf,
+  features,
+  plot_test = F,
+  tag,
+  means_col,
+  std_col,
+  mean_lab,
+  std_lab
+)
 }
 \arguments{
 \item{pprosdf}{input file}
@@ -15,9 +24,13 @@ tsample(pprosdf, features, plot_test = F, tag, means, std)
 
 \item{tag}{flag}
 
-\item{means}{means}
+\item{means_col}{means}
 
-\item{std}{standard deviation}
+\item{std_col}{standard deviation}
+
+\item{mean_lab}{means}
+
+\item{std_lab}{standard deviation}
 }
 \value{
 matrix

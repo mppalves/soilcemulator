@@ -5,15 +5,17 @@
 #' @param features output directory
 #' @param plot_test Whether the output should reduced to cluster cells for plotting
 #' @param tag flag
-#' @param means means
-#' @param std standard deviation
+#' @param means_col means
+#' @param std_col standard deviation
+#' @param mean_lab means
+#' @param std_lab standard deviation
 #' @author Marcos Alves
 #' @import magclass
 #' @import utils
 #' @import dplyr
 #' @export
 
-tsample <- function(pprosdf, features, plot_test = F, tag, means, std) {
+tsample <- function(pprosdf, features, plot_test = F, tag, means_col, std_col, mean_lab, std_lab) {
 
   # Initiatin magrittr variables
   Region <- NULL
@@ -28,21 +30,22 @@ tsample <- function(pprosdf, features, plot_test = F, tag, means, std) {
     datadf <- pprosdf[, features]
     cells <- mutate(pprosdf[which(pprosdf[, "Year"] == 2000 & pprosdf[, "lsu_ha"] == 0), ], cells = paste0(Region, "_", Cell))[, "cells"]
   }
-  datadf <- scale(datadf, center = means, scale = std)
+
 
   # divide data in features and labes
   output <- grepl(pattern = paste0(tag, "+"), colnames(datadf))
-  full_train <- datadf[, !output]
+  full_features <- datadf[, !output]
   full_labels <- datadf[, output]
-
+  full_features <- scale(full_features, center = means_col, scale = std_col)
+  full_labels <- scale(full_labels, center = mean_lab, scale = std_lab)
 
   # converting data frames into matrix
-  full_train <- as.matrix(full_train)
+  full_features <- as.matrix(full_features)
   full_labels <- as.matrix(full_labels)
 
 
   x <- list(
-    "full_train" = full_train,
+    "full_features" = full_features,
     "full_labels" = full_labels,
     "cell" = cells
   )

@@ -29,17 +29,19 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   model <- runmeta[["model"]]
   ppsample_y <- ppsample[["train_labels"]]
   ppsample_x <- ppsample[["train_data"]]
-  timestep <- attr(ppsample, "timestep")
+  # timestep <- attr(ppsample, "timestep")
   dfid <- attr(ppsample, "dfid")
-  means <- ppsample[["col_means"]]
-  std <- ppsample[["col_stddevs"]]
+  means_col <- ppsample[["col_means"]]
+  std_col <- ppsample[["col_stddevs"]]
+  mean_lab <- ppsample[["label_means"]]
+  std_lab <- ppsample[["label_stddevs"]]
 
   ######################################################
   ### Model Fitting ####################################
   ######################################################
 
   # The patience parameter is the amount of epochs to check for improvement.
-  early_stop <- callback_early_stopping(monitor = "loss", patience = 20)
+
   history <- model %>% fit(
     ppsample_x,
     ppsample_y,
@@ -87,10 +89,10 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   write.csv(x, file = paste0("excell_comparisson", "_", modelid, "_", dfid, ".csv"))
   close(file(paste0("excell_comparisson", "_", modelid, "_", dfid, ".csv")))
 
-  valid_data <- tsample(pprosdf, features, plot_test = F, tag=tag, means, std)
+  valid_data <- tsample(pprosdf, features, plot_test = F, tag=tag, means_col, std_col, mean_lab, std_lab)
 
   # exporting inputs and outputs for quality analysis
-  output_data <- model %>% predict(valid_data[["full_train"]])
+  output_data <- model %>% predict(valid_data[["full_features"]])
   input_data <- rbind(valid_data[["full_labels"]])
   saveRDS(output_data, file = paste0("output.Rds"))
   saveRDS(input_data, file = paste0("input.Rds"))

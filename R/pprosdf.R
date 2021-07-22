@@ -40,7 +40,9 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   tag_files <- NULL
   . <- NULL
 
-  if(download) {filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)}
+  if (download) {
+    filemap <- download_unpack(input, targetdir = targetdir, repositories = repositories, unpack = TRUE)
+  }
 
   if (dir.exists(targetdir)) {
     setwd(targetdir)
@@ -58,7 +60,9 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   if (length(tag_index) < 1) {
     stop(paste0("None of the files in ", targetdir, "is flagged as ", flag))
   }
-  if(download) { unlink(files[-tag_index]) }
+  if (download) {
+    unlink(files[-tag_index])
+  }
 
   if (length(tag_files) > 2) {
     stop(c("More than 2 tagged files. Cannot handle this case. ", print(tag_files)))
@@ -93,10 +97,18 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   years <- intersect(getYears(features), getYears(labels))
   features_exp[, years, paste0(flag, "_", gcm)] <- labels[, years, ]
   out <- as.data.frame(features_exp)
+  out_back <- out
   out <- pivot_wider(out, id_cols = c(Cell, Region, Year, Data1), names_from = Data2, values_from = Value)
   out <- mutate(out, Data1 = as.numeric(gsub("p", ".", Data1)), Year = as.numeric(as.character(Year)))
-
+  out <- as.data.frame(out)
+  out_order <- order(out$Year, out$Data1)
+  out <- out[out_order, ]
+  cells_year1 <- table(out$Year)[1]
+  order_shift <- c(seq(cells_year1 + 1, nrow(out), 1), seq(1, cells_year1, 1))
+  out$soilc_memory <- out[order_shift, paste0(flag, "_", gcm)]
+  out <- out[-(1:cells_year1), ]
   colnames(out)[grep("Data1", colnames(out))] <- "lsu_ha"
+
   if (!all(sapply(out[, 4:ncol(out)], is.numeric))) {
     warning("Check the output dataframe for non-numeric features")
   }

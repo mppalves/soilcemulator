@@ -19,7 +19,7 @@ run_move_files <- function(source_folder, modelid, targetdir, subtype) {
   last_dir <- dirs[length(dirs)]
   if (grepl("[0-9]{4}", last_dir)) {
     setwd(last_dir)
-    files2 <- grep(paste0("mean+|stddevs+|model_weights+"), list.files(), value = T, perl = T)
+    files2 <- grep(paste0("mean+|stddevs+|model_weights+|inputs_+"), list.files(), value = T, perl = T)
     file.copy(files2, to = dpath, overwrite = T)
   } else {
     stop("Means and stds could not be copied")

@@ -8,6 +8,7 @@
 #' @param cut_100 limit training data to "y2010"
 #' @param t_size time step size used for cross valiadation
 #' @param download should data be downloaded
+#' @param RNN Add memory feature into dataset (created very biased results)
 #' @author Marcos Alves
 #' @import magclass
 #' @importFrom gms download_unpack
@@ -25,7 +26,7 @@
 # library(dplyr)
 # library(digest)
 
-pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 10, download = T) {
+pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 10, download = T, RNN = F) {
   # input = "rev4.51+mrmagpie_past2_h12_1d3efffd6e793f8aa6f3bf4219bd8ea3_cellularmagpie_debug.tgz"
   # targetdir = "C:/Users/pedrosa/Desktop/test/"
   # repositories = list("C:/Users/pedrosa/Desktop"= NULL)
@@ -97,16 +98,17 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   years <- intersect(getYears(features), getYears(labels))
   features_exp[, years, paste0(flag, "_", gcm)] <- labels[, years, ]
   out <- as.data.frame(features_exp)
-  out_back <- out
   out <- pivot_wider(out, id_cols = c(Cell, Region, Year, Data1), names_from = Data2, values_from = Value)
   out <- mutate(out, Data1 = as.numeric(gsub("p", ".", Data1)), Year = as.numeric(as.character(Year)))
   out <- as.data.frame(out)
+  if(RNN){
   out_order <- order(out$Year, out$Data1)
   out <- out[out_order, ]
   cells_year1 <- table(out$Year)[1]
   order_shift <- c(seq(cells_year1 + 1, nrow(out), 1), seq(1, cells_year1, 1))
   out$soilc_memory <- out[order_shift, paste0(flag, "_", gcm)]
   out <- out[-(1:cells_year1), ]
+  }
   colnames(out)[grep("Data1", colnames(out))] <- "lsu_ha"
 
   if (!all(sapply(out[, 4:ncol(out)], is.numeric))) {
@@ -128,3 +130,4 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   saveRDS(out, file = paste0("training_data_", dfid, ".rds"))
   return(out)
 }
+

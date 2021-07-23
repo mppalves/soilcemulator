@@ -10,7 +10,8 @@ run_batch_rmse(
   features = select_features(pprosdf),
   targetdir,
   modelid,
-  offset = 0
+  offset = 0,
+  tag
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ run_batch_rmse(
 \item{modelid}{model id output from \link{write_run_info}}
 
 \item{offset}{use if scaled output values are offset}
+
+\item{tag}{flaged output}
 }
 \description{
 run_analysis for cross valiation batches

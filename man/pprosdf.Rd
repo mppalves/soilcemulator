@@ -11,7 +11,8 @@ pprosdf(
   flag,
   cut_100 = T,
   t_size = 10,
-  download = T
+  download = T,
+  RNN = F
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ pprosdf(
 \item{t_size}{time step size used for cross valiadation}
 
 \item{download}{should data be downloaded}
+
+\item{RNN}{Add memory feature into dataset (created very biased results)}
 }
 \value{
 Data frame

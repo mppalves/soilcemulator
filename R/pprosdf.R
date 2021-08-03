@@ -72,13 +72,16 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   features <- read.magpie(grep("Envi", files[tag_index], value = T, ignore.case = T))
   labels <- read.magpie(grep("stock", files[tag_index], value = T, ignore.case = T))
 
-  subtype <- attr(features, "comment") %>%
-    grep("calcOutput", ., value = T) %>%
-    strsplit(",") %>%
-    unlist() %>%
-    grep("subtype", ., value = T) %>%
-    gsub("[:-]", "_", .) %>%
-    str_match("\"\\s*(.*?)\\s*\"")
+  subtype <- getNames(features)[1] %>%
+    str_split_fixed("_", 2) %>% .[2]
+
+  # subtype <- attr(features, "comment") %>%
+  #   grep("calcOutput", ., value = T) %>%
+  #   strsplit(",") %>%
+  #   unlist() %>%
+  #   grep("subtype", ., value = T) %>%
+  #   gsub("[:-]", "_", .) %>%
+  #   str_match("\"\\s*(.*?)\\s*\"")
 
   # #############
   # ###Scaling###
@@ -130,4 +133,3 @@ pprosdf <- function(input, targetdir, repositories, flag, cut_100 = T, t_size = 
   saveRDS(out, file = paste0("training_data_", dfid, ".rds"))
   return(out)
 }
-

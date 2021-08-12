@@ -1,6 +1,6 @@
 # Soil carbon pasture emulator creator
 
-R package **soilcemulator**, version **2.3.11**
+R package **soilcemulator**, version **2.4.0**
 
 [![CRAN status](https://www.r-pkg.org/badges/version/soilcemulator)](https://cran.r-project.org/package=soilcemulator)   [![R build status](https://github.com/mppalves/mrscpmule/workflows/check/badge.svg)](https://github.com/mppalves/mrscpmule/actions) [![codecov](https://codecov.io/gh/mppalves/mrscpmule/branch/master/graph/badge.svg)](https://codecov.io/gh/mppalves/mrscpmule)
 

@@ -96,6 +96,7 @@ model_gym <- function(pprosdf, ppsample, runmeta, modelid, features = select_fea
   input_data <- rbind(valid_data[["full_labels"]])
   saveRDS(output_data, file = paste0("output.Rds"))
   saveRDS(input_data, file = paste0("input.Rds"))
+  saveRDS(valid_data, file = paste0("validation_data.rds"))
 
   setwd("..")
 
